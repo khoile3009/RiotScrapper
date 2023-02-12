@@ -26,10 +26,14 @@ class RiotAPI:
         url = PLAYER_NAME_API.format(name=name)
         return self._request(url)
     
-    def get_match_history_from_puuid(self, puuid):
+    def get_match_history_from_puuid(self, puuid, start_time=None):
         # TODO(khoi): Fetch all with pagination
         url = MATCH_HISTORY_API.format(puuid=puuid)
-        return self._request(url)
+        # TODO: Change this to 100
+        params = {"count": 5}
+        if start_time:
+            params["startTime"] = start_time
+        return self._request(url, params)
     
     def get_match_info_from_match_id(self, match_id):
         url = MATCH_INFO_API.format(match_id=match_id)
@@ -39,9 +43,9 @@ if __name__ == '__main__':
     api = RiotAPI()
     pprint(api.get_player_info_from_name("scarria"))
     pprint(api.get_match_history_from_puuid("pRHSBIZo91C5n1L2uqjxKx9DDLCOLAefMmKET9t6w3n5ba7HazwQ9d3bzKt0wfNESDezCyEUjXZrpg"))
-    match_info = api.get_match_info_from_match_id("NA1_4574296671")
+    match_info = api.get_match_info_from_match_id("NA1_4573472375")
     for k, v in match_info["metadata"].items():
         print(k, v)
-    for k in match_info["info"].keys():
+    for k,v in match_info["info"]["teams"][0].items():
         print(k)
-    print(match_info["info"]["gameVersion"])
+    print(type(match_info["info"]["teams"][1]["teamId"]))

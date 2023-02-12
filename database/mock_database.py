@@ -26,4 +26,3 @@ class MockDatabase:
 
 if __name__ == '__main__':
     db = MockDatabase()
-    Player.create_table(db.conn)
