@@ -6,6 +6,7 @@ name: Scraper CI Check
 on:
   pull_request:
     types: ["opened", "edited"]
+  workflow_dispatch:
 
 permissions:
   contents: read
