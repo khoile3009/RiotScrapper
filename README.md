@@ -1,4 +1,4 @@
-# scrapper
+# scraper
 Scraper for Riot API. 
 ## We have 2 main scripts:
 - `fetch_player_history` that get a players' username/uuid and return the player info and match history of that player and store in database
