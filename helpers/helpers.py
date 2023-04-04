@@ -1,6 +1,6 @@
 from riot_api import RiotAPI
 from database.mock_database import MockDatabase
-from database.mock_data_model import Match, Player
+from database.mock_data_model import Match, Player, RawMatch
 
 def add_players_to_database_from_name(name, connection):
     response = RiotAPI().get_player_info_from_name(name)
@@ -60,6 +60,8 @@ def get_null_matches(connection):
 
 def add_match_information(match_id, connection):
     response = RiotAPI().get_match_info_from_match_id(match_id)
+    raw_match = RawMatch.from_riot_response(response)
+    raw_match.save(connection)
     match = Match.from_riot_response(response)
     match.save(connection)
     puuids = match.get_participant_puuids()
