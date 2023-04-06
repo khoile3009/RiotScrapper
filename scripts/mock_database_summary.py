@@ -2,6 +2,7 @@
 import os
 
 from database.mock_database import MOCK_DATABASE_PATH, MockDatabase
+from database.mongo_database import MongoDBClient
 
 
 
@@ -21,7 +22,14 @@ def summarize_database(conn):
         num_rows = get_number_of_rows(table, c)
         print(f"{table}: {num_rows} rows")
     print(f"Database size: {get_mockdb_size()} bytes")
-    
+
+def summarize_mongo(mongodb_client: MongoDBClient):
+    matches_stats = mongodb_client.db.command("collstats", "matches")
+    print(f"Uncompressed size: {matches_stats['size']}")
+    print(f"Uncompressed size: {matches_stats['storageSize']}")
 if __name__ == '__main__':
     database = MockDatabase()
+    mongodb_client = MongoDBClient()
     summarize_database(database.conn)
+    summarize_mongo(mongodb_client)
+    

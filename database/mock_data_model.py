@@ -142,42 +142,42 @@ class PlayerMatchInfo:
         conn.commit()
         c.close()
         
-@dataclass
-class RawMatch:
-    id: str
-    content: str
+# @dataclass
+# class RawMatch:
+#     id: str
+#     content: str
     
-    @classmethod
-    def from_riot_response(cls, riot_response):
-        metadata = riot_response.get("metadata")
-        return RawMatch(id=metadata["matchId"], content=json.dumps(riot_response))
+#     @classmethod
+#     def from_riot_response(cls, riot_response):
+#         metadata = riot_response.get("metadata")
+#         return RawMatch(id=metadata["matchId"], content=json.dumps(riot_response))
     
-    @classmethod
-    def drop_table(cls, conn):
-        c = conn.cursor()
-        c.execute("DROP TABLE IF EXISTS rawMatch")
-        conn.commit()
-        c.close()
+#     @classmethod
+#     def drop_table(cls, conn):
+#         c = conn.cursor()
+#         c.execute("DROP TABLE IF EXISTS rawMatch")
+#         conn.commit()
+#         c.close()
         
-    @classmethod
-    def create_table(cls, conn):
-        c = conn.cursor()
-        c.execute(""" CREATE TABLE IF NOT EXISTS rawMatch(
-                                id VARCHAR(50) PRIMARY KEY,
-                                content TEXT
-                                )
-                       """)
+#     @classmethod
+#     def create_table(cls, conn):
+#         c = conn.cursor()
+#         c.execute(""" CREATE TABLE IF NOT EXISTS rawMatch(
+#                                 id VARCHAR(50) PRIMARY KEY,
+#                                 content TEXT
+#                                 )
+#                        """)
         
-    def save(self, conn):
-        """ Save to mock database """
-        c = conn.cursor()
-        query = insert_or_ignore_to_table_query(
-            "rawMatch",
-            [self.id, self.content]
-        )
-        c.execute(query)
-        conn.commit()
-        c.close()
+#     def save(self, conn):
+#         """ Save to mock database """
+#         c = conn.cursor()
+#         query = insert_or_ignore_to_table_query(
+#             "rawMatch",
+#             [self.id, self.content]
+#         )
+#         c.execute(query)
+#         conn.commit()
+#         c.close()
         
 # TODO: Review this design
 @dataclass
@@ -352,10 +352,11 @@ def create_all_tables(conn):
     Player.create_table(conn)
     Match.create_table(conn)
     PlayerMatchInfo.create_table(conn)
-    RawMatch.create_table(conn)
+    # RawMatch.create_table(conn)
     
 def drop_all_tables(conn):
     Player.drop_table(conn)
     Match.drop_table(conn)
     PlayerMatchInfo.drop_table(conn)
-    RawMatch.drop_table(conn)
+    
+    # RawMatch.drop_table(conn)
