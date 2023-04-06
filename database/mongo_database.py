@@ -103,6 +103,7 @@ class MongoDBClient:
                 ]
             }
         )
+
         print("-------------- Dataset report --------------")
         print(f"Total number of matches: {num_matches}")
         print(
@@ -112,6 +113,12 @@ class MongoDBClient:
         print(
             f"Number of players with history not updated: {num_players_not_updated}. That is {num_players_not_updated / num_players * 100 if num_players != 0 else 0}% of players\n"
         )
+        print(
+            f"Size of matches collection: {self.db.command('collstats', 'matches')['storageSize'] / (1024 ** 2)} Mbs"
+        )
+        print(
+            f"Size of players collection: {self.db.command('collstats', 'players')['storageSize'] / (1024 ** 2)} Mbs"
+        )
 
     # DELETE
     def drop_all_collections(self):
@@ -120,5 +127,5 @@ class MongoDBClient:
 
 
 if __name__ == "__main__":
-    mongodb = MongoDBClient()
-    print(mongodb.get_number_matches())
+    client = MongoDBClient()
+    client.summarize_collections()
