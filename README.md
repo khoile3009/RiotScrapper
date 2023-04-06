@@ -8,6 +8,13 @@ Scraper for Riot API.
 Right now we are using a mock database using sqlite3 to prototype the pipeline and datamodel. We will gradually moved to using grpc to remote database service that use ORM
 
 ## SETUP
+### Mongodb
+```
+docker pull mongo
+export MONGODB_VERSION=6.0-ubi8
+docker run --name mongodb -d mongodb/mongodb-community-server:$MONGODB_VERSION
+```
+
 Run
 ```
 python -m scripts.initialize_mock_database
